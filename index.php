@@ -16,35 +16,10 @@
  * under the License.
  */
 
-require_once('./LINEBotTiny.php');
+require_once __DIR__ . '/lineBot.php';
+//inisiasi
+$bot = new Linebot();
+$text = $bot->getMessageText();
 
-$channelAccessToken = 'oAtFHNdqhSTGraW1d98UD6DtZlz2xXUc9ybFdlv6ZNhe+WrsQwDTISTme8caAy8l1IrA+eU+OnoWlVZv9r+djKeOCtJVNn5WjSmg7JDdFAs/PTxo64Ls08cn9QdM5q0+KmLKUXdjoQQWhKyFgoA4UQdB04t89/1O/w1cDnyilFU=';
-$channelSecret = 'aba8aa9fce68a00549264e0c34ed9f9c';
-
-$client = new LINEBotTiny($channelAccessToken, $channelSecret);
-foreach ($client->parseEvents() as $event) {
-    switch ($event['type']) {
-        case 'message':
-            $message = $event['message'];
-            switch ($message['type']) {
-                case 'text':
-                    $client->replyMessage(array(
-                        'replyToken' => $event['replyToken'],
-                        'messages' => array(
-                            array(
-                                'type' => 'text',
-                                'text' => $message['text']
-                            )
-                        )
-                    ));
-                    break;
-                default:
-                    error_log("Unsupporeted message type: " . $message['type']);
-                    break;
-            }
-            break;
-        default:
-            error_log("Unsupporeted event type: " . $event['type']);
-            break;
-    }
-};
+//this will reply in chatbot
+$bot->reply($text);
