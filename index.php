@@ -20,6 +20,21 @@ require_once __DIR__ . '/lineBot.php';
 //inisiasi
 $bot = new Linebot();
 $text = $bot->getMessageText();
+$follow = $bot->getFollowEvent();
 
 //this will reply in chatbot
-$bot->reply($text);
+//$bot->reply($text);
+
+if($text == 'start') {  
+    $json = file_get_contents('https://opentdb.com/api.php?amount=10');
+    $obj = json_decode($json);
+    $bot->reply($obj->results[1]->question);
+} 
+
+if($text == 'getuser') {
+    $bot->reply($bot->getUserId());
+}
+
+if($text == 'follow') {
+    $bot->reply($bot->follow());
+}
